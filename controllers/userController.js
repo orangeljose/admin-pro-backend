@@ -125,7 +125,7 @@ const deleteUser = async( req, res = response) =>{
         res.status(200).json({
             ok:true,
             msj: 'Usuario borrado',
-            user: uid,
+            user: updatedUser,
         })
         
     } catch (error) {

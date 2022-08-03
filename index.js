@@ -1,8 +1,9 @@
+//Para obtener variables de entorno
 require('dotenv').config();
-
+//configuracion inicial de express y cors
 const express = require('express');
 const cors = require('cors');
-
+//conexion con la base de datos
 const { dbConection } = require('./database/config');
 
 // Crear el servidor de express
