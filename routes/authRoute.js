@@ -1,4 +1,4 @@
-// Ruta: /api/user
+// Ruta: /api/auth
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos')

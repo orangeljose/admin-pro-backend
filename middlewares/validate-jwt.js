@@ -3,7 +3,8 @@ const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
 const validarJWT = (req, res = response, next) =>{
-const errores = validationResult( req );
+
+    const errores = validationResult( req );
 
     const token = req.header('x-token');
 

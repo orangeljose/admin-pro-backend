@@ -3,14 +3,21 @@ const { response } = require('express');
 const  bcrypt  = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
-
 const getUsers = async (req, res) => {
+    
+    const desde = req.query.desde;
+    const [ users, total ] = await Promise.all([
+        User.find({}, 'nombre email role google img')
+                            .skip(desde)
+                            .limit(5),  
 
-    const users = await User.find({}, 'nombre email role google')
+        User.countDocuments(),
+    ]);
+    
     res.json({
         ok:true,
         users,
-        uid: req.uid
+        total,
     })
 }
 
@@ -30,12 +37,12 @@ const createUser = async (req, res = response) => {
         }
 
         const user = new User( req.body );
-        //encryptar password
+
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync( password, salt );
 
         await user.save();
-        //generar JWT
+
         const token = await generarJWT( user.id );
 
         res.status(200).json({
@@ -58,7 +65,7 @@ const createUser = async (req, res = response) => {
 const updateUser = async (req, res = response) => {
 
     const uid = req.params.id;
-    //TODO: validar token
+
     try {
 
         const dbuser = await User.findById( uid );
@@ -93,7 +100,6 @@ const updateUser = async (req, res = response) => {
             user: updatedUser,
         });
 
-        next();
         
     } catch (error) {
         console.log(error);
